@@ -11,14 +11,16 @@ function Profil() {
         </div>
       </div>
       <div className="w-[70%]">
-        <h1 className="text-lg font-semibold mb-4">Vasi licni podaci</h1>
+        <h1 className="text-xl text-center font-semibold mb-10">
+          Vasi licni podaci
+        </h1>
         <form className="space-y-4">
           <div className="flex gap-4">
             <div className="w-1/2">
               <p>Ime:</p>
               <input
-                type="password"
-                placeholder="Unesite staru lozinku"
+                type="text"
+                placeholder="Ime"
                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
                 required
               />
@@ -26,8 +28,8 @@ function Profil() {
             <div className="w-1/2">
               <p>Prezime:</p>
               <input
-                type="password"
-                placeholder="Unesite novu lozinku"
+                type="text"
+                placeholder="Prezime"
                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
                 required
               />
@@ -37,8 +39,8 @@ function Profil() {
           <div>
             <p>Broj telefona:</p>
             <input
-              type="password"
-              placeholder="Potvrditi novu lozinku"
+              type="phone"
+              placeholder="Broj telefona"
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
               required
             />
@@ -46,8 +48,8 @@ function Profil() {
           <div>
             <p>E-mail:</p>
             <input
-              type="password"
-              placeholder="Potvrditi novu lozinku"
+              type="email"
+              placeholder="E-mail adresa"
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
               required
             />
@@ -59,7 +61,6 @@ function Profil() {
               type="date"
               placeholder="Datum rodjenja"
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-              required
             />
           </div>
           <button
