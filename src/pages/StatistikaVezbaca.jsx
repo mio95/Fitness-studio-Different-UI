@@ -3,6 +3,9 @@ import React from "react";
 function StatistikaVezbaca() {
   return (
     <div className="felx-col mx-auto w-[70%]">
+      <div className="text-xl text-left font-semibold mt-10">
+        <p>Pretraga po vezbaču:</p>
+      </div>
       {/* filter */}
       <div className="rounded-box border border-base-content/5 bg-base-100 mt-10">
         <table className="table ">
