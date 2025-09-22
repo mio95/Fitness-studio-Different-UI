@@ -21,7 +21,7 @@ function PromenaLozinke() {
   };
 
   return (
-    <div className="my-auto mx-auto w-[40%] p-6  bg-white">
+    <div className="m-auto w-[40%] bg-white">
       <h2 className="text-xl text-center font-semibold mb-4">Promeni šifru</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <input

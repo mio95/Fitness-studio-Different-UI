@@ -59,7 +59,7 @@ function DodajClana() {
           type="submit"
           className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors"
         >
-          Sacuvaj profil
+          Kreiraj korisnika
         </button>
       </form>
     </div>
