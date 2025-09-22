@@ -4,7 +4,6 @@ import { useNavigation } from "react-router";
 import { Outlet } from "react-router";
 //pages
 import Loader from "./components/Loader";
-import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar/Sidebar";
 import SidebarItem from "./components/Sidebar/SidebarItem";
 
