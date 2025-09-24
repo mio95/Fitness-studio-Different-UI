@@ -15,6 +15,7 @@ export const loginUser = createAsyncThunk(
 
       return response;
     } catch (error) {
+      toast.error(error.response.data.message);
       return rejectWithValue(error.response?.data || "Login failed");
     }
   }
@@ -37,6 +38,7 @@ export const updateUserProfile = createAsyncThunk(
       return response.data;
     } catch (error) {
       toast.error("Greška prilikom ažuriranja profila!");
+      toast.error(error.response.data.message);
       return rejectWithValue(error.response?.data || error.message);
     }
   }
@@ -55,6 +57,22 @@ export const updateUserPassword = createAsyncThunk(
       return response.data;
     } catch (error) {
       toast.error("Greška prilikom ažuriranja password-a!");
+      toast.error(error.response.data.message);
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+// ADD NEW USER
+export const addNewUser = createAsyncThunk(
+  "auth/addNewUser",
+  async (userData, { rejectWithValue }) => {
+    try {
+      const response = await api.post("/users", userData);
+      toast.success("Uspesno ste dodali novog korisnika!");
+      return response.data;
+    } catch (error) {
+      toast.error(error.response.data.message);
       return rejectWithValue(error.response?.data || error.message);
     }
   }

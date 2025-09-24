@@ -10,7 +10,7 @@ const RequireAuth = ({ allowedRoles, children }) => {
     return <Navigate to="/login" replace />;
   }
   if (allowedRoles && !allowedRoles.includes(user.role)) {
-    return <Navigate to="/unauthorized" replace />;
+    return <Navigate to="/login" replace />;
   }
 
   return children ? children : <Outlet />;
