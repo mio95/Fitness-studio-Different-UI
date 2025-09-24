@@ -1,6 +1,4 @@
 import axios from "axios";
-import store from "../store";
-import { logoutUser } from "../features/auth/authThunks";
 
 export const axiosInstance = axios.create({
   baseURL: "http://localhost:8080/api",
@@ -9,7 +7,8 @@ export const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     try {
-      const token = localStorage.getItem("token");
+      const token =
+        typeof window !== "undefined" ? localStorage.getItem("token") : null;
       if (token) {
         // config.headers = config.headers || {};
         config.headers.Authorization = `Bearer ${token}`;
@@ -27,7 +26,10 @@ axiosInstance.interceptors.response.use(
   (res) => res,
   (error) => {
     if (error.response && error.response.status === 401) {
-      store.dispatch(logoutUser());
+      localStorage.removeItem("token");
+      // dispatch globalnog event-a da svi delovi aplikacije reaguju
+      window.dispatchEvent(new Event("logout"));
+      window.location.href = "/login";
     }
     return Promise.reject(error);
   }

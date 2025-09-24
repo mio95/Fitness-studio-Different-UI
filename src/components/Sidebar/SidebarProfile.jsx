@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 
 export default function SidebarProfile({ expanded }) {
   const { user } = useSelector((state) => state.auth);
+
   return (
     <div className="border-t flex p-3">
       <div

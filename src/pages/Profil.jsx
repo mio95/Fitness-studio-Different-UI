@@ -1,6 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import { updateUserProfile } from "../features/user/userSlice";
 
 function Profil() {
+  const dispatch = useDispatch();
+  const { currentUser, loading } = useSelector((state) => state.user);
+  const [username, setUsername] = useState(currentUser.username);
+  const [firstName, setFirstName] = useState(currentUser.firstName);
+  const [lastName, setLastName] = useState(currentUser.lastName);
+  const [phoneNumber, setPhoneNumber] = useState(currentUser.phoneNumber);
+  const [dateOfBirth, setDateOfBirth] = useState(currentUser.dateOfBirth);
+
+  const formData = {
+    id: currentUser?.id || "",
+    username,
+    firstName,
+    lastName,
+    phoneNumber,
+    dateOfBirth,
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(updateUserProfile(formData));
+  };
+
   return (
     <div className="flex items-center justify-center h-screen mx-auto gap-10 w-[60%]">
       <div className="w-[30%]">
@@ -14,13 +43,16 @@ function Profil() {
         <h1 className="text-xl text-center font-semibold mb-10">
           Vasi licni podaci
         </h1>
-        <form className="space-y-4">
-          <div className="flex gap-4">
+        {/* <form className="space-y-4"> */}
+        <form onSubmit={handleSubmit} className=" mx-auto p-4 gap-3">
+          <div className="flex gap-5">
             <div className="w-1/2">
               <p>Ime:</p>
               <input
                 type="text"
                 placeholder="Ime"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
                 required
               />
@@ -30,6 +62,8 @@ function Profil() {
               <input
                 type="text"
                 placeholder="Prezime"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
                 className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
                 required
               />
@@ -41,16 +75,21 @@ function Profil() {
             <input
               type="phone"
               placeholder="Broj telefona"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
               required
             />
           </div>
           <div>
-            <p>E-mail:</p>
+            <p>Username:</p>
             <input
-              type="email"
-              placeholder="E-mail adresa"
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="w-full px-4 py-2 bg-gray-200 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 "
+              disabled
               required
             />
           </div>
@@ -60,14 +99,17 @@ function Profil() {
             <input
               type="date"
               placeholder="Datum rodjenja"
+              value={dateOfBirth}
+              onChange={(e) => setDateOfBirth(e.target.value)}
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors"
+            className="w-full bg-blue-500 text-white py-2 px-4 mt-4 rounded-md hover:bg-blue-600 transition-colors"
+            disabled={loading}
           >
-            Sacuvaj profil
+            {loading ? "Čuvanje..." : "Sačuvaj profil"}
           </button>
         </form>
       </div>
