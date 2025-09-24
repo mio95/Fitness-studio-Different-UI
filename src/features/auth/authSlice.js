@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginUser, logoutUser, updateUserProfile } from "./authThunks";
+import {
+  loginUser,
+  logoutUser,
+  updateUserPassword,
+  updateUserProfile,
+} from "./authThunks";
 
 const user = localStorage.getItem("user")
   ? JSON.parse(localStorage.getItem("user"))
@@ -58,6 +63,19 @@ const authSlice = createSlice({
         localStorage.setItem("user", JSON.stringify(action.payload));
       })
       .addCase(updateUserProfile.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // UPDATE USER PROFILE
+      .addCase(updateUserPassword.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateUserPassword.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(updateUserPassword.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

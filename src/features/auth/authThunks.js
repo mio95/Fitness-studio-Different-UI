@@ -41,3 +41,21 @@ export const updateUserProfile = createAsyncThunk(
     }
   }
 );
+
+// UPDATE USER PASSWORD
+export const updateUserPassword = createAsyncThunk(
+  "auth/updatePassword",
+  async ({ userId, changePassword }, { rejectWithValue }) => {
+    try {
+      const response = await api.put(
+        `/users/change-password/${userId}`,
+        changePassword
+      );
+      toast.success("Password je uspešno ažuriran!");
+      return response.data;
+    } catch (error) {
+      toast.error("Greška prilikom ažuriranja password-a!");
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);

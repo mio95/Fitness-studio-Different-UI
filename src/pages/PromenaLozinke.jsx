@@ -1,19 +1,34 @@
 import React from "react";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { updateUserPassword } from "../features/auth/authThunks";
+import { toast } from "react-toastify";
 
 function PromenaLozinke() {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const dispatch = useDispatch();
+  const currentUser = useSelector((state) => state.auth.user);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // Ovde ide logika za promenu lozinke
     if (newPassword !== confirmPassword) {
-      alert("Nova lozinka i potvrda se ne poklapaju!");
+      toast.error("Nova lozinka i potvrda se ne poklapaju!");
       return;
     }
-    console.log("Promena lozinke:", { oldPassword, newPassword });
+    dispatch(
+      updateUserPassword({
+        userId: currentUser.id,
+        changePassword: {
+          oldPassword: oldPassword,
+          newPassword: newPassword,
+        },
+      })
+    );
+    toast.success("Lozinka je uspešno promenjena!");
+
     // Reset input polja
     setOldPassword("");
     setNewPassword("");
