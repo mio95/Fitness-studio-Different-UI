@@ -1,6 +1,8 @@
 import { HiDotsVertical } from "react-icons/hi";
+import { useSelector } from "react-redux";
 
 export default function SidebarProfile({ expanded }) {
+  const { user } = useSelector((state) => state.auth);
   return (
     <div className="border-t flex p-3">
       <img
@@ -14,8 +16,8 @@ export default function SidebarProfile({ expanded }) {
         }`}
       >
         <div className="leading-4">
-          <h4 className="font-semibold">Ime i prezime </h4>
-          <span className="text-xs text-gray-600">email@gmail.com</span>
+          <h4 className="font-semibold">{user.username}</h4>
+          <span className="text-xs text-gray-600">{user.email}</span>
         </div>
         <HiDotsVertical size={20} />
       </div>
