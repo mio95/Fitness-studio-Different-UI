@@ -1,22 +1,19 @@
-import { Navigate, useLocation } from "react-router-dom";
-import { useAuth } from "../hook/useAuth";
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-const RequireAuth = ({ allowedRoles }) => {
-  const { token, role } = useAuth();
-  const location = useLocation();
+const RequireAuth = ({ allowedRoles, children }) => {
+  // const { token, role } = useAuth();
+  // const location = useLocation();
 
-  if (!token) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
-  }
-  // pristupamo ovoj ruti
-  // ako nema pravo pristupa ovoj ruti, prebacimo ga na login stranicu
-  if (allowedRoles && !allowedRoles.includes(role)) {
-    // nema pravo pristupa ovoj ruti
+  const { user } = useSelector((state) => state.auth);
+  if (!user) {
     return <Navigate to="/login" replace />;
   }
+  if (allowedRoles && !allowedRoles.includes(user.role)) {
+    return <Navigate to="/unauthorized" replace />;
+  }
 
-  return <Outlet />;
+  return children ? children : <Outlet />;
 };
 
 export default RequireAuth;

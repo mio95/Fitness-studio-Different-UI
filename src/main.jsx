@@ -23,6 +23,10 @@ import { RouterProvider } from "react-router/dom";
 import RequireAuth from "./components/RequireAuth";
 import { AuthProvider } from "./contexts/AuthContext";
 
+//Redux store
+import { Provider } from "react-redux";
+import store from "./store";
+
 const router = createBrowserRouter([
   {
     path: "/login",
@@ -40,7 +44,7 @@ const router = createBrowserRouter([
         path: "/statistikaTrenera",
         element: (
           <RequireAuth allowedRoles={["ADMIN"]}>
-            <StatistikaTrenera />{" "}
+            <StatistikaTrenera />
           </RequireAuth>
         ),
       },
@@ -115,7 +119,9 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <AuthProvider>
-      <RouterProvider router={router} />
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
     </AuthProvider>
   </StrictMode>
 );

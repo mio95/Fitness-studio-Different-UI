@@ -1,27 +1,22 @@
-import React, { useState } from "react";
-import { useAuth } from "../hook/useAuth";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../features/auth/authThunks";
+// import { Navigate } from "react-router";
 
 function LogInPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
-  const { login } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state);
+  console.log(state);
+
+  const { loading, error } = useSelector((state) => state.auth);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null);
-    try {
-      await login(email, password);
-      navigate(from, { replace: true });
-    } catch (err) {
-      setError(
-        err.response?.data?.message || err.message || "Greška pri prijavi"
-      );
-    }
+    const username = e.target.username.value;
+    const password = e.target.password.value;
+
+    dispatch(loginUser({ username, password }));
+
+    // Navigate("/home");
   };
 
   return (
@@ -38,28 +33,25 @@ function LogInPage() {
             <p>Username</p>
             <input
               type="text"
+              name="username"
               placeholder="Unesite username/e-mail"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
             <p>Password</p>
             <input
               type="password"
               placeholder="Unesite pasword"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              name="password"
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
             <button
               className="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg xl:btn-xl my-10"
               type="submit"
-              // onClick={() => {
-              //   console.log(userName, password);
-              // }}
+              disabled={loading}
             >
-              Login
+              {loading ? "Logging in..." : "Login"}
             </button>
+            {error && <p className="text-red-500">{error}</p>}
           </div>
         </div>
       </div>
