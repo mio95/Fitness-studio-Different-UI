@@ -1,19 +1,20 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-import { updateUserProfile } from "../features/user/userSlice";
+import { updateUserProfile } from "../features/auth/authThunks";
 
 function Profil() {
   const dispatch = useDispatch();
-  const { currentUser, loading } = useSelector((state) => state.user);
-  const [username, setUsername] = useState(currentUser.username);
-  const [firstName, setFirstName] = useState(currentUser.firstName);
-  const [lastName, setLastName] = useState(currentUser.lastName);
-  const [phoneNumber, setPhoneNumber] = useState(currentUser.phoneNumber);
-  const [dateOfBirth, setDateOfBirth] = useState(currentUser.dateOfBirth);
+  const { user, loading } = useSelector((state) => state.auth);
+  const [username, setUsername] = useState(user?.username);
+  const [firstName, setFirstName] = useState(user?.firstName);
+  const [lastName, setLastName] = useState(user?.lastName);
+  const [phoneNumber, setPhoneNumber] = useState(user?.phoneNumber);
+  const [dateOfBirth, setDateOfBirth] = useState(user?.dateOfBirth);
 
   const formData = {
-    id: currentUser?.id || "",
+    id: user?.id || "",
+    password: user?.password || "",
+    role: user?.role || "",
     username,
     firstName,
     lastName,

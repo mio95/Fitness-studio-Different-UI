@@ -5,10 +5,10 @@ const API_URL = "http://localhost:8080/api";
 const login = async (username, password) => {
   const res = await axios.post(`${API_URL}/login`, { username, password });
 
-  const { token, password: _, ...userWithoutPassword } = res.data;
+  const { token } = res.data;
 
   return {
-    user: userWithoutPassword,
+    user: res.data,
     token, // ovde ostaje "Bearer eyJhbGciOi..."
   };
 };

@@ -1,13 +1,15 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import authService from "./authService";
+import api from "../../api/axios";
+import { toast } from "react-toastify";
 
+// LOGIN
 export const loginUser = createAsyncThunk(
-  "/login",
+  "auth/login",
   async ({ username, password }, { rejectWithValue }) => {
     try {
       const response = await authService.login(username, password);
 
-      // Sačuvaj u localStorage
       localStorage.setItem("token", response.token);
       localStorage.setItem("user", JSON.stringify(response.user));
 
@@ -18,8 +20,24 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-export const logoutUser = createAsyncThunk("logout", async () => {
+// LOGOUT
+export const logoutUser = createAsyncThunk("auth/logout", async () => {
   localStorage.removeItem("token");
   localStorage.removeItem("user");
   return true;
 });
+
+// UPDATE USER PROFILE
+export const updateUserProfile = createAsyncThunk(
+  "auth/updateProfile",
+  async (userData, { rejectWithValue }) => {
+    try {
+      const response = await api.put(`/users/${userData.id}`, userData);
+      toast.success("Profil je uspešno ažuriran!");
+      return response.data;
+    } catch (error) {
+      toast.error("Greška prilikom ažuriranja profila!");
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);

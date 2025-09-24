@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginUser, logoutUser } from "./authThunks";
+import { loginUser, logoutUser, updateUserProfile } from "./authThunks";
 
 const user = localStorage.getItem("user")
   ? JSON.parse(localStorage.getItem("user"))
@@ -8,8 +8,8 @@ const user = localStorage.getItem("user")
 const token = localStorage.getItem("token") || null;
 
 const initialState = {
-  user,
-  token,
+  user, // ovde čuvaš podatke korisnika
+  token, // JWT token
   loading: false,
   error: null,
 };
@@ -17,9 +17,15 @@ const initialState = {
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    setUser: (state, action) => {
+      state.user = action.payload;
+      localStorage.setItem("user", JSON.stringify(action.payload));
+    },
+  },
   extraReducers: (builder) => {
     builder
+      // LOGIN
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -33,12 +39,30 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+
+      // LOGOUT
       .addCase(logoutUser.fulfilled, (state) => {
         state.user = null;
         state.token = null;
         state.error = null;
+      })
+
+      // UPDATE USER PROFILE
+      .addCase(updateUserProfile.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateUserProfile.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+        localStorage.setItem("user", JSON.stringify(action.payload));
+      })
+      .addCase(updateUserProfile.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });
 
+export const { setUser } = authSlice.actions;
 export default authSlice.reducer;
