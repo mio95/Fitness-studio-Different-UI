@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addNewUser } from "../features/auth/authThunks";
+import { addNewUser } from "../features/user/userThunks";
 
 function DodajClana() {
   const [ime, setIme] = useState("");

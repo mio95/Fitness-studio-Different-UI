@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUserPassword } from "../features/auth/authThunks";
+import { updateUserPassword } from "../features/user/userThunks";
 import { toast } from "react-toastify";
 
 function PromenaLozinke() {
@@ -27,7 +27,6 @@ function PromenaLozinke() {
         },
       })
     );
-    toast.success("Lozinka je uspešno promenjena!");
 
     // Reset input polja
     setOldPassword("");

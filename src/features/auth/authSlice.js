@@ -1,11 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {
-  addNewUser,
-  loginUser,
-  logoutUser,
-  updateUserPassword,
-  updateUserProfile,
-} from "./authThunks";
+import { loginUser, logoutUser } from "./authThunks";
 
 const user = localStorage.getItem("user")
   ? JSON.parse(localStorage.getItem("user"))
@@ -51,47 +45,6 @@ const authSlice = createSlice({
         state.user = null;
         state.token = null;
         state.error = null;
-      })
-
-      // UPDATE USER PROFILE
-      .addCase(updateUserProfile.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(updateUserProfile.fulfilled, (state, action) => {
-        state.loading = false;
-        state.user = action.payload;
-        localStorage.setItem("user", JSON.stringify(action.payload));
-      })
-      .addCase(updateUserProfile.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
-
-      // UPDATE USER PROFILE
-      .addCase(updateUserPassword.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(updateUserPassword.fulfilled, (state, action) => {
-        state.loading = false;
-        state.user = action.payload;
-      })
-      .addCase(updateUserPassword.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
-
-      // ADD NEW USER
-      .addCase(addNewUser.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(addNewUser.fulfilled, (state, action) => {
-        state.loading = false;
-        state.user = action.payload;
-      })
-      .addCase(addNewUser.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
       });
   },
 });

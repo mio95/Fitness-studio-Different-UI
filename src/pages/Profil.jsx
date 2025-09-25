@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUserProfile } from "../features/auth/authThunks";
+import { updateUserProfile } from "../features/user/userThunks";
 
 function Profil() {
   const dispatch = useDispatch();
