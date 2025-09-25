@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addNewTrainingPacket,
-  getTrainingTypes,
-} from "../features/training/trainingThunks";
+import { addNewTrainingPacket } from "../features/traningPackage/traningPackageThunks";
+import { getTrainingTypes } from "../features/traningType/traningTypeThunks";
 
 function DodajNoviPaket() {
   const dispatch = useDispatch();
-  const { trainingTypes } = useSelector((state) => state.training);
+  const { trainingTypes } = useSelector((state) => state.trainingType);
 
   const [selectedId, setSelectedId] = useState("");
   const [numberOfTrainings, setNumberOfTrainings] = useState("");
