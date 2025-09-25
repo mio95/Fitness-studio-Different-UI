@@ -53,3 +53,31 @@ export const addNewUser = createAsyncThunk(
     }
   }
 );
+
+// GET ALL USERS
+export const getAllUsers = createAsyncThunk(
+  "auth/getAllUsers",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api.get("/users");
+      return response.data;
+    } catch (error) {
+      toast.error(error.response.data.message);
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+// GET ALL USERS BY ROLE
+export const getAllUsersByRole = createAsyncThunk(
+  "auth/getAllUsersByRole",
+  async (role, { rejectWithValue }) => {
+    try {
+      const response = await api.get(`/users/${role}`);
+      return response.data;
+    } catch (error) {
+      toast.error(error.response.data.message);
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);

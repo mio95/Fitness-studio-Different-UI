@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   addNewUser,
+  getAllUsers,
+  getAllUsersByRole,
   updateUserPassword,
   updateUserProfile,
 } from "./userThunks";
@@ -60,6 +62,34 @@ const userSlice = createSlice({
         state.user = action.payload;
       })
       .addCase(addNewUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      //GET ALL USERS
+      .addCase(getAllUsers.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getAllUsers.fulfilled, (state, action) => {
+        state.loading = false;
+        state.users = action.payload;
+      })
+      .addCase(getAllUsers.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      //GET ALL USERS BY ROLE
+      .addCase(getAllUsersByRole.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getAllUsersByRole.fulfilled, (state, action) => {
+        state.loading = false;
+        state.users = action.payload;
+      })
+      .addCase(getAllUsersByRole.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
