@@ -1,8 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getStatistics } from "./statisticsUserAndTrainingTypeThunks";
+import {
+  getAllTrainingsByUserId,
+  getStatistics,
+} from "./statisticsUserAndTrainingTypeThunks";
 
 const initialState = {
   statistics: [],
+  statisticsUser: [],
   loading: false,
   error: null,
 };
@@ -27,6 +31,28 @@ const statisticsSlice = createSlice({
         console.log(state.statistics);
       })
       .addCase(getStatistics.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // GET trainings by user and training type
+      .addCase(getAllTrainingsByUserId.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getAllTrainingsByUserId.fulfilled, (state, action) => {
+        state.loading = false;
+        state.statisticsUser = action.payload.map(
+          ([firstName, lastName, startDate, endDate, status]) => ({
+            firstName,
+            lastName,
+            startDate,
+            endDate,
+            status,
+          })
+        );
+      })
+      .addCase(getAllTrainingsByUserId.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

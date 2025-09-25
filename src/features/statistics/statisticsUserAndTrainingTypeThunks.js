@@ -26,3 +26,28 @@ export const getStatistics = createAsyncThunk(
     }
   }
 );
+
+// get all training by usedID and trainingTypeId and beetween startDate and endDate
+export const getAllTrainingsByUserId = createAsyncThunk(
+  "statistics/getAllTrainings",
+  async ({ userId, startDate, endDate, trainingType }, { rejectWithValue }) => {
+    try {
+      // prave se samo parametri koji nisu undefined ili null
+      const params = Object.fromEntries(
+        Object.entries({ startDate, endDate, trainingType }).filter(
+          ([, value]) => value !== undefined && value !== null
+        )
+      );
+
+      const response = await api.get(
+        `/user-trainings/user/${userId}/statistics`,
+        { params }
+      );
+
+      return response.data;
+    } catch (error) {
+      toast.error(error.response?.data?.message || error.message);
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);

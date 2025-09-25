@@ -2,18 +2,23 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllUsersByRole } from "../features/user/userThunks";
 import { getTrainingTypes } from "../features/traningType/traningTypeThunks";
+import { getAllTrainingsByUserId } from "../features/statistics/statisticsUserAndTrainingTypeThunks";
+import { useDateFormatter } from "../hook/useDateFormatter";
 
 function StatistikaVezbaca() {
   const dispatch = useDispatch();
+  const { formatDate, formatTime } = useDateFormatter();
 
   const { users } = useSelector((state) => state.user);
-  const [selectedTrainerId, setSelectedTrainerId] = useState("");
+  const [selectedUserId, setSelectedUserId] = useState("");
 
   const { trainingTypes } = useSelector((state) => state.trainingType);
   const [selectedTrainingTypeId, setSelectedTrainingTypeId] = useState("");
 
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+
+  const { statisticsUser } = useSelector((state) => state.statistics);
 
   useEffect(() => {
     dispatch(getAllUsersByRole("VEZBAC"));
@@ -25,11 +30,23 @@ function StatistikaVezbaca() {
   };
 
   const handleChangeUserID = (e) => {
-    setSelectedTrainerId(e.target.value);
+    setSelectedUserId(e.target.value);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const longDateStart = startDate ? new Date(startDate).getTime() : undefined;
+    const longDateEnd = endDate ? new Date(endDate).getTime() : undefined;
+
+    dispatch(
+      getAllTrainingsByUserId({
+        userId: selectedUserId,
+        trainingType: selectedTrainingTypeId,
+        startDate: longDateStart,
+        endDate: longDateEnd,
+      })
+    );
   };
 
   return (
@@ -54,7 +71,7 @@ function StatistikaVezbaca() {
               <td>
                 {Array.isArray(users) && users.length > 0 && (
                   <select
-                    value={selectedTrainerId}
+                    value={selectedUserId}
                     onChange={handleChangeUserID}
                     disabled={!Array.isArray(users) || users.length === 0}
                     className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 text-black"
@@ -142,33 +159,35 @@ function StatistikaVezbaca() {
               <th>Ime i prezime</th>
               <th>Datum i vreme treninga</th>
               <th>Status</th>
+              <th>Detalji</th>
             </tr>
           </thead>
           <tbody>
-            <tr className="hover:bg-base-300">
-              <th>1</th>
-              <td>Milan Petrovic</td>
-              <td>19.21.2023. 10:00</td>
-              <td>Rezervisan</td>
-            </tr>
-            <tr className="hover:bg-base-300">
-              <th>2</th>
-              <td>Milan Petrovic</td>
-              <td>19.21.2023. 10:00</td>
-              <td>Rezervisan</td>
-            </tr>
-            <tr className="hover:bg-base-300">
-              <th>3</th>
-              <td>Milan Petrovic</td>
-              <td>19.21.2023. 10:00</td>
-              <td>Rezervisan</td>
-            </tr>
-            <tr className="hover:bg-base-300">
-              <th>4</th>
-              <td>Milan Petrovic</td>
-              <td>19.21.2023. 10:00</td>
-              <td>Rezervisan</td>
-            </tr>
+            {statisticsUser.length > 0 ? (
+              statisticsUser.map((item, index) => (
+                <tr key={index} className="hover:bg-base-300">
+                  <th>{index + 1}</th>
+                  <th>
+                    {item.firstName || ""} {item.lastName || ""}
+                  </th>
+                  <th>
+                    {formatDate(item.startDate)}
+                    {"-"}
+                    {formatTime(item.endDate)}
+                  </th>
+                  <th>{item.status}</th>
+                  <th>
+                    <button className="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg xl:btn-xl">
+                      Detalji
+                    </button>
+                  </th>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={6}>Nema podataka ili se jos ucitavaju ....</td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
