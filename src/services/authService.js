@@ -1,4 +1,4 @@
-import axiosInstance from "../api/Axios";
+import axiosInstance from "../api/axios";
 import { jwtDecode } from "jwt-decode";
 
 const TOKEN_KEY = "token";
@@ -21,7 +21,7 @@ export function parseToken(token) {
       role: decoded.role, // čuvamo rolu iz JWT
     };
   } catch (e) {
-    console.log(e);
+    e.error;
     return { token: null, role: null };
   }
 }

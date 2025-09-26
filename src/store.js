@@ -4,6 +4,7 @@ import userReducer from "../src/features/user/userSlice";
 import trainingTypeReducer from "../src/features/traningType/traningTypeSlice";
 import trainingPackageReducer from "../src/features/traningPackage/traningPackageSlice";
 import statisticsReducer from "../src/features/statistics/statisticsUserAndTrainingTypeSlice";
+import membershipReducer from "../src/features/membership/membershipSlice";
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     trainingType: trainingTypeReducer,
     trainingPackage: trainingPackageReducer,
     statistics: statisticsReducer,
+    membership: membershipReducer,
   },
 });
 

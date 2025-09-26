@@ -54,12 +54,6 @@ function StatistikaTrenera() {
     const logaDateStart = new Date(startDate);
     const logaDateEnd = new Date(endDate);
 
-    console.log(
-      logaDateStart.getTime(),
-      logaDateEnd.getTime(),
-      selectedTrainerId,
-      selectedTrainingTypeId
-    );
     dispatch(
       getStatistics({
         startDate: logaDateStart.getTime(),
@@ -69,10 +63,6 @@ function StatistikaTrenera() {
       })
     );
   };
-
-  useEffect(() => {
-    statistics.map((stat) => console.log(stat));
-  }, [statistics]);
 
   return (
     <>

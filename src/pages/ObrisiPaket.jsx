@@ -15,10 +15,6 @@ function ObrisiPaket() {
     dispatch(getAllTrainingPackages());
   }, []);
 
-  useEffect(() => {
-    console.log(trainingPackages);
-  }, [trainingPackages]);
-
   const handleChange = (e) => {
     setSelectedId(e.target.value);
   };

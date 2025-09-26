@@ -28,7 +28,6 @@ const statisticsSlice = createSlice({
           training, // ovde ostavljamo training objekat koji backend vraća
           numOfExercises,
         }));
-        console.log(state.statistics);
       })
       .addCase(getStatistics.rejected, (state, action) => {
         state.loading = false;

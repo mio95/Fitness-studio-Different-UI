@@ -15,7 +15,7 @@ axiosInstance.interceptors.request.use(
       }
     } catch (e) {
       // ignore (npr. SSR bez localStorage)
-      console.log(e);
+      e.error;
     }
     return config;
   },
